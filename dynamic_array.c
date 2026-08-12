@@ -91,27 +91,6 @@ int updateValueAtIndex(const ArrayList *arr, int index, int value) {
     return 1;
 }
 
-int insert(ArrayList *arr, int value) {
-    return insertAtIndex(arr, arr->size, value);
-    // if(arr == NULL) {
-    //     return 0;
-    // }
-
-    // if(arr->size >= arr->capacity) {
-    //     int *temp = realloc(arr->data, arr->capacity * 2 * sizeof(int));
-    //     if(temp == NULL) {
-    //         return 0;
-    //     }
-    //     arr->data = temp;
-    //     arr->capacity*=2; 
-    // }
-
-    // arr->data[arr->size] = value;
-    // arr->size++;
-
-    // return 1;
-}
-
 int insertAtIndex(ArrayList *arr, int index, int value) {
     if(arr == NULL) {
         return 0;
@@ -141,6 +120,11 @@ int insertAtIndex(ArrayList *arr, int index, int value) {
     return 1;
 }
 
+int insert(ArrayList *arr, int value) {
+    int res = insertAtIndex(arr, arr->size, value);
+    return res;
+}
+
 int deleteAtIndex(ArrayList *arr, int index) {
     if(arr == NULL) {
         return 0;
@@ -158,12 +142,14 @@ int deleteAtIndex(ArrayList *arr, int index) {
     arr->size--;
     
     if(arr->size <= (arr->capacity/4)) {
-        int *temp = realloc(arr->data, (arr->capacity/2) * sizeof(int));
+        int newCapacity = arr->capacity/2;
+        if(newCapacity < MIN_CAPACITY) newCapacity = MIN_CAPACITY;
+        int *temp = realloc(arr->data, newCapacity * sizeof(int));
         if(temp == NULL) {
             return 0;
         }
         arr->data = temp;
-        arr->capacity/=2;
+        arr->capacity = newCapacity;
     }
 
     return 1;
@@ -198,7 +184,7 @@ int searchInSortedArr(const ArrayList *arr, int target, int *targetIndex) {
     return 1;
 }
 
-void sortOnKeys(ArrayList *arr)
+void sortByKeys(ArrayList *arr)
 {
     int i, j;
     int key;
@@ -207,20 +193,34 @@ void sortOnKeys(ArrayList *arr)
         return;
     }
 
-    for(i = 1; i < arr->size; i++) {
-        key = arr->data[i];
-        j = i - 1;
-
-        while(j >= 0 && arr->data[j] > key) {
-            arr->data[j + 1] = arr->data[j];
-            j--;
+    for(i = 0; i < arr->size; i++) {
+        for(j = 0; j < arr->size - 1 - i; j++) {
+            if(arr->data[j] > arr->data[j + 1]) {
+                int temp = arr->data[j];
+                arr->data[j] = arr->data[j + 1];
+                arr->data[j + 1] = temp;
+            }
         }
-
-        arr->data[j + 1] = key;
     }
 }
 
-#25
+void sout(const ArrayList *arr) {
+    int i;
+    if(arr == NULL) {
+        return;
+    }
+
+    printf("[");
+
+    for(i = 0; i < arr->size; i++) {
+        printf("%d", arr->data[i]);
+        if(i <= (arr->size - 2)) {
+            printf(", ");
+        }
+    }
+
+    printf("]\n");
+}
 
 int main(void) {
     ArrayList arr; // variable
@@ -230,12 +230,36 @@ int main(void) {
         return 1;
     };
 
-    int value;
-    if(getValueAtIndex(&arr, 4, &value) == 1) {
-        printf("%d\n", value);
-    }
+    // int value;
+    // if(getValueAtIndex(&arr, 4, &value) == 1) {
+    //     printf("%d\n", value);
+    // }
 
+    insert(&arr, 3);
+    insert(&arr, 2);
+    insert(&arr, 4);
 
+    sout(&arr);
+
+    sortByKeys(&arr);
+
+    sout(&arr);
+
+    deleteAtIndex(&arr, 1);
+
+    sout(&arr);
+
+    insert(&arr, 10);
+    insert(&arr, 11);
+    insert(&arr, 12);
+    insert(&arr, 13);
+    insert(&arr, 14);
+    insert(&arr, 15);
+    insert(&arr, 16);
+
+    updateValueAtIndex(&arr, arr.size - 1, -89);
+
+    sout(&arr);
 
     clear(&arr);
 
