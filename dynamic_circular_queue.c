@@ -21,6 +21,7 @@ int init(Queue *queue) {
     queue->front = -1;
     queue->rear = 0;
     queue->CAPACITY = MIN_CAPACITY;
+    return 1;
 }
 
 int isEmpty(const Queue *queue) {
@@ -73,6 +74,7 @@ int enqueue(Queue *queue, int value) {
 }
 
 int dequeue(Queue *queue, int *dequedValue) {
+    int i;
     if(queue == NULL) {
         return 0;
     }
@@ -90,9 +92,28 @@ int dequeue(Queue *queue, int *dequedValue) {
         queue->rear = 0;
     }
 
-    // if(queue->size <= queue->CAPACITY/4) {
-    //     int newCapacity = queue->CAPACITY/2;
-    // }
+    if((queue->size != 0) && (queue->size <= queue->CAPACITY/4)) {
+        int newCapacity = queue->CAPACITY/2;
+        if(newCapacity < MIN_CAPACITY) {
+            newCapacity = MIN_CAPACITY;
+        }
+        
+        int *temp = malloc(newCapacity * sizeof(int));
+
+        if(temp == NULL) {
+            return 0;
+        }
+
+        for(i = 0; i < queue->size; i++) {
+            *(temp + i) = queue->data[(queue->front + i) % queue->CAPACITY];
+        }
+
+        free(queue->data);
+        queue->data = temp;
+        queue->CAPACITY = newCapacity;
+        queue->front = 0;
+        queue->rear = queue->size;
+    }
 
     return 1;
 }
@@ -105,6 +126,22 @@ int peek(const Queue *queue, int *peekedValue) {
     *peekedValue = queue->data[queue->front];
 
     return 1;
+}
+
+void sout(const Queue *queue) {
+    int i;
+    if(queue == NULL) {
+        return;
+    }
+    printf("[");
+    for(i = 0; i < queue->size; i++) {
+        printf("%d", queue->data[(queue->front + i) % queue->CAPACITY]);
+        if(i <= (queue->size - 2)) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+    return;
 }
 
 void clear(Queue *queue) {
@@ -123,5 +160,25 @@ void destroy(Queue *queue) {
 }
 
 int main(void) {
+    Queue queue;
+
+    if(init(&queue) == 0) {
+        printf("Queue could not be initialized. Terminating program.");
+        return 1;
+    }
+
+    enqueue(&queue, 10);
+    enqueue(&queue, 20);
+    enqueue(&queue, 30);
+    enqueue(&queue, 40);
+
+    sout(&queue);
+
+    enqueue(&queue, 50);
+
+    sout(&queue);
+
+    destroy(&queue);
+
     return 0;
 }
