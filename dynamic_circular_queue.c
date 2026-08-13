@@ -20,6 +20,7 @@ int init(Queue *queue) {
     queue->data = temp;
     queue->front = -1;
     queue->rear = 0;
+    queue->size = 0;
     queue->CAPACITY = MIN_CAPACITY;
     return 1;
 }
@@ -71,6 +72,8 @@ int enqueue(Queue *queue, int value) {
     queue->data[queue->rear] = value;
     queue->rear = (queue->rear + 1) % queue->CAPACITY;
     queue->size++;
+
+    return 1;
 }
 
 int dequeue(Queue *queue, int *dequedValue) {
