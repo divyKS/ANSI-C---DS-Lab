@@ -72,6 +72,56 @@ int enqueue(Queue *queue, int value) {
     queue->size++;
 }
 
+int dequeue(Queue *queue, int *dequedValue) {
+    if(queue == NULL) {
+        return 0;
+    }
+    
+    if(isEmpty(queue)) {
+        return 0;
+    }
+
+    *dequedValue = queue->data[queue->front];
+    queue->front = (queue->front + 1) % queue->CAPACITY;
+    queue->size--;
+
+    if(queue->size == 0) {
+        queue->front = -1;
+        queue->rear = 0;
+    }
+
+    // if(queue->size <= queue->CAPACITY/4) {
+    //     int newCapacity = queue->CAPACITY/2;
+    // }
+
+    return 1;
+}
+
+int peek(const Queue *queue, int *peekedValue) {
+    if (isEmpty(queue)) {
+        return 0;
+    }
+
+    *peekedValue = queue->data[queue->front];
+
+    return 1;
+}
+
+void clear(Queue *queue) {
+    queue->front = -1;
+    queue->rear = 0;
+    queue->size = 0;
+}
+
+void destroy(Queue *queue) {
+    free(queue->data);
+    queue->data = NULL;
+    queue->front = -1;
+    queue->rear = 0;
+    queue->size = 0;
+    queue->CAPACITY = MIN_CAPACITY;
+}
+
 int main(void) {
     return 0;
 }
