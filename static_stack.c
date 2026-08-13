@@ -57,6 +57,11 @@ int pop(Stack *st, int *poppedValue) {
     return 1;
 }
 
+int clear(Stack *st) {
+    st->top=-1;
+    return 1;
+}
+
 int main(void) {
     Stack stack;
     
