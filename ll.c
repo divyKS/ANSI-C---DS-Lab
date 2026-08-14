@@ -180,6 +180,22 @@ int updateValueAtIndex(LinkedList *list, int index, int value) {
 }
 
 void freeList(LinkedList *list) {
+
+    // free(all node pointers one by one)
+    Node *currNode = list->head;
+    Node *nextNode;
+
+    while(currNode != NULL) {
+        nextNode = currNode->next;
+        free(currNode);
+        currNode = nextNode;
+    }
+    
+    list->head = NULL;
+    list->size = 0;
+}
+
+void cleanup(LinkedList *list) {
     
 }
 
@@ -211,4 +227,8 @@ int main(void) {
     deleteNodeAtIndex(&list, 1, &value);
     
     sout(&list);
+
+    freeList(&list);
+
+    return 0;
 }
