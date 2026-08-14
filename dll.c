@@ -152,6 +152,50 @@ void sout(const DoublyLinkedList *list) {
     printf("NULL\n");
 }
 
+int deleteAtIndex(DoublyLinkedList *list, int index, int *deletedValue) {
+    if(list == NULL || index < 0 || index >= list->size) {
+        return 0;
+    }
+
+    if(index == 0) {
+        return deleteHeadNode(list, deleteAtIndex);
+    }
+
+    if(index == list->size - 1) {
+        // return deleteNodeAtEnd(list, deletedValue);
+    }
+
+    int skips;
+    Node *prevNode;
+    for(skips = 1; skips <= index - 1; skips++) {
+        prevNode = prevNode->next;
+    }
+
+    Node *nodeToDelete = prevNode->next;
+    *deletedValue = nodeToDelete->data;
+    Node *nextNode = nodeToDelete->next;
+    free(nodeToDelete);
+    prevNode->next = nextNode;
+    nextNode->prev = prevNode;
+
+    list->size--;
+
+    return 1;
+}
+
+void freeList(DoublyLinkedList *list) {
+    Node *currNode = list->head;
+    Node *nextNode;
+    while(currNode != NULL) {
+        nextNode = currNode->next;
+        free(currNode);
+        currNode = nextNode;
+    }
+    list->head = NULL;
+    list->size = 0;
+    return;
+}
+
 int main(void) {
     DoublyLinkedList list;
     if(init(&list) == 0){
