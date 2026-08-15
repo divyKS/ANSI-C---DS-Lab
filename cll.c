@@ -118,6 +118,92 @@ int insertNodeAtIndex(CircularLinkedList *list, int index, int value) {
     return 1;
 }
 
+int deleteNodeAtHead(CircularLinkedList *list, int *deletedValue) {
+    if (list == NULL || list->head == NULL) {
+        return 0;
+    }
+
+    Node *temp = list->head;
+
+    *deletedValue = list->head->data;
+
+    if (list->head == list->tail) { // single node CLL
+        list->head = NULL;
+        list->tail = NULL;
+    } else {
+        list->head = list->head->next;
+        list->tail->next = list->head;
+    }
+
+    free(temp);
+
+    list->size--;
+
+    return 1;
+}
+
+int deleteNodeAtTail(CircularLinkedList *list, int *deletedValue) {
+    if (list == NULL || list->head == NULL) {
+        return 0;
+    }
+    
+    if (list->head == list->tail) {
+        Node *temp = list->head;
+        *deletedValue = list->head->data;
+        list->head = NULL;
+        list->tail = NULL;
+        free(temp);
+    }
+    else {
+        Node *secondLastNode = list->head;
+    
+        while (secondLastNode->next != list->tail) {
+            secondLastNode = secondLastNode->next;
+        }
+    
+        Node *temp = list->tail;
+        *deletedValue = temp->data;
+        secondLastNode->next = list->head;
+        list->tail = secondLastNode;
+    
+        free(temp);
+    }
+
+    list->size--;
+
+    return 1;
+}
+
+int deleteNodeAtIndex(CircularLinkedList *list, int index, int *deletedValue) {
+    if (list == NULL || index < 0 || index >= list->size) {
+        return 0;
+    }
+
+    if (index == 0) {
+        return deleteNodeAtHead(list, deletedValue);
+    }
+
+    if (index == list->size - 1) {
+        return deleteNodeAtTail(list, deletedValue);
+    }
+
+    int skips;
+    Node *prevNode = list->head;
+    for (skips = 1; skips <= index - 1; skips++) {
+        prevNode = prevNode->next;
+    }
+
+    Node *nodeToBeDeleted = prevNode->next;
+    *deletedValue = nodeToBeDeleted->data;
+
+    prevNode->next = nodeToBeDeleted->next;
+    free(nodeToBeDeleted);
+
+    list->size--;
+
+    return 1;
+}
+
 void sout(const CircularLinkedList *list) {
     Node *temp = list->head;
     int i;
@@ -128,6 +214,22 @@ void sout(const CircularLinkedList *list) {
     printf("HEAD\n");
 }
 
+void clear(CircularLinkedList *list) {
+    int i;
+    Node *currentNode, *nextNode;
+
+    currentNode = list->head;
+
+    for (i = 0; i < list->size; i++) {
+        nextNode = currentNode->next;
+        free(currentNode);
+        currentNode = nextNode;
+    }
+
+    list->head = NULL;
+    list->tail = NULL;
+    list->size = 0;
+}
 
 int main(void) {
     CircularLinkedList list;
@@ -137,7 +239,14 @@ int main(void) {
     insertNodeAtTail(&list, 40);
     insertNodeAtIndex(&list, 2, 30);
     sout(&list);
-
+    int value;
+    deleteNodeAtHead(&list, &value);
+    sout(&list);
+    deleteNodeAtHead(&list, &value);
+    sout(&list);
+    deleteNodeAtIndex(&list, 1, &value);
+    sout(&list);
+    clear(&list);
     return 0;
 }
 
