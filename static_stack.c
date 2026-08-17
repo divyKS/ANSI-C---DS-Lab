@@ -4,8 +4,10 @@
 #define STACK_MAX_SIZE 100
 
 typedef struct {
-    int top; // i am pointing it to last inserted value
-    int data[STACK_MAX_SIZE]; // static array, no need of pointer
+    /* i am pointing it to last inserted value */
+    int top; 
+    /* static array, no need of pointer */
+    int data[STACK_MAX_SIZE];
 } Stack;
 
 void init(Stack *st) {
@@ -65,7 +67,7 @@ int clear(Stack *st) {
 int main(void) {
     Stack stack;
     
-    // init(stack); then the init function would receive a copy of the struct var, and this stack in main would remain unaffected
+    /* init(stack); then the init function would receive a copy of the struct var, and this stack in main would remain unaffected */ 
     init(&stack);
 
     if(isEmpty(&stack) == 1) {
