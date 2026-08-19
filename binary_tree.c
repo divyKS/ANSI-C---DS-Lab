@@ -300,6 +300,48 @@ void levelOrder(Node *root) {
     }
 }
 
+Node *createTreeByNormalLevelOrderEntries(void) {
+    Queue queue;
+    initQueue(&queue);
+
+    printf("START\n");
+    
+    int value;
+    scanf("%d", &value);
+    
+    if (value == -1) {
+        /* tree with no root, empty tree sort of idk, more like fail check */
+        return NULL; 
+    }
+    
+    Node *root = createNode(value);
+
+    enqueue(&queue, root);
+
+    while (!isQueueEmpty(&queue)) {
+
+        Node *current = dequeue(&queue);
+
+        /* left subtree whole data of the currently popped node */
+        scanf("%d", &value);
+
+        if (value != -1) {
+            current->leftNode = createNode(value);
+            enqueue(&queue, current->leftNode);
+        }
+
+        /* right subtree whole data */
+        scanf("%d", &value);
+
+        if (value != -1) {
+            current->rightNode = createNode(value);
+            enqueue(&queue, current->rightNode);
+        }
+    }
+
+    return root;
+}
+
 void clearTree(Node *a) {
     if(a == NULL) return;
     clearTree(a->leftNode);
@@ -308,9 +350,10 @@ void clearTree(Node *a) {
 }
 
 int main(void) {
-    Node *root = createNode(10);
-    Node *node20 = insertNode(root, 20, 1);
-    Node *node30 = insertNode(root, 30, 0);
+
+    Node *root = createTreeByNormalLevelOrderEntries();
+    // Node *node20 = insertNode(root, 20, 1);
+    // Node *node30 = insertNode(root, 30, 0);
 
     printf("Preorder: ");
     preorder(root);
