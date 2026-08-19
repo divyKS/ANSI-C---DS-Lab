@@ -275,7 +275,30 @@ int equalTrees(Node *a, Node *b) {
 
 /* maybe other two iterative traversals also have to be done */
 
-/* the level order traversal using queue, but again will have to make queue in here */
+void levelOrder(Node *root) {
+    Queue queue;
+
+    if (root == NULL) {
+        return;
+    }
+
+    initQueue(&queue);
+
+    enqueue(&queue, root);
+
+    while(!isQueueEmpty(&queue)) {
+
+        Node *currentNode = dequeue(&queue);
+
+        printf("%d ", currentNode->data);
+
+        if (currentNode->leftNode != NULL)
+            enqueue(&queue, currentNode->leftNode);
+
+        if (currentNode->rightNode != NULL)
+            enqueue(&queue, currentNode->rightNode);
+    }
+}
 
 void clearTree(Node *a) {
     if(a == NULL) return;
@@ -299,6 +322,10 @@ int main(void) {
 
     printf("Postorder: ");
     postorder(root);
+    printf("\n");
+
+    printf("Levelorder: ");
+    levelOrder(root);
     printf("\n");
 
     int height = findHeight(root);
