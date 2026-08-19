@@ -20,6 +20,19 @@ typedef struct {
     StackNode *top;
 } Stack;
 
+/* this time creating without array, with only pointer to the next link and so on, like a linked list for simplicity */
+typedef struct QueueNode {
+    Node *data;
+    struct QueueNode *next;
+} QueueNode;
+
+typedef struct {
+    QueueNode *front;
+    QueueNode *rear;
+} Queue;
+
+/* STACK FUNCTIONS FOR ITERATIVE TRAVERSALS */
+
 void initStack(Stack *stack) {
     stack->top = NULL;
 }
@@ -53,6 +66,56 @@ Node *pop(Stack *stack) {
     free(temp);
 
     return treeNode;
+}
+
+/* QUEUE FUNCTIONS FOR LEVEL ORDER AND CREATE BT */
+
+void initQueue(Queue *queue) {
+    queue->front = NULL;
+    queue->rear = NULL;
+}
+
+int isQueueEmpty(Queue *queue) {
+    return queue->front == NULL;
+}
+
+void enqueue(Queue *queue, Node *data) {
+    QueueNode *newNode = malloc(sizeof(QueueNode));
+
+    if (newNode == NULL) {
+        return;
+    }
+
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if (queue->rear == NULL) {
+        queue->front = newNode;
+        queue->rear = newNode;
+    }
+    else {
+        queue->rear->next = newNode;
+        queue->rear = newNode;
+    }
+}
+
+Node *dequeue(Queue *queue) {
+    if (isQueueEmpty(queue))
+        return NULL;
+
+    QueueNode *temp = queue->front;
+
+    Node *data = temp->data;
+
+    queue->front = queue->front->next;
+
+    if (queue->front == NULL) {
+        queue->rear = NULL;
+    }
+
+    free(temp);
+
+    return data;
 }
 
 Node *createNode(int data) {
