@@ -4,8 +4,8 @@
 #define MIN_CAPACITY 4
 
 typedef struct {
-    int front; // points to the first element
-    int rear; // points to the index where the next element will be enqueued
+    int front; /* points to the first element */
+    int rear; /* points to the index where the next element will be enqueued */
     int *data;
 
     int size;
@@ -20,7 +20,7 @@ int init(Queue *queue) {
     queue->data = temp;
     queue->front = -1;
     queue->rear = 0;
-    queue->size = 0;
+    queue->size = 0; /* had forgotten to init this */
     queue->CAPACITY = MIN_CAPACITY;
     return 1;
 }
@@ -49,7 +49,7 @@ int enqueue(Queue *queue, int value) {
         return 0;
     }
     if(queue->size == queue->CAPACITY) {
-        // resize queue and copy and clean the ordering
+        /* resize queue and copy and clean the ordering */
         int newCapacity = queue->CAPACITY * 2;
         int *temp = malloc(newCapacity * sizeof(int));
         if(temp == NULL) {
@@ -66,7 +66,7 @@ int enqueue(Queue *queue, int value) {
     }
 
     if(queue->front == -1) {
-        queue->front = 0; // re-intialize now
+        queue->front = 0; /* re-intialize now */
     }
     
     queue->data[queue->rear] = value;

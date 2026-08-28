@@ -46,10 +46,10 @@ int insertNodeAtHead(CircularLinkedList *list, int value) {
         return 0;
     }
 
-    if (list->head == NULL) { // list was empty till now
+    if (list->head == NULL) { /* list was empty till now */
         list->head = newNode;
         list->tail = newNode;        
-        list->head->next = list->head; // a sigle node will point to itself
+        list->head->next = list->head; /* a sigle node will point to itself */
     } else {
         newNode->next = list->head;
         list->head = newNode;
@@ -127,7 +127,7 @@ int deleteNodeAtHead(CircularLinkedList *list, int *deletedValue) {
 
     *deletedValue = list->head->data;
 
-    if (list->head == list->tail) { // single node CLL
+    if (list->head == list->tail) { /* single node CLL */
         list->head = NULL;
         list->tail = NULL;
     } else {

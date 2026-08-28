@@ -10,9 +10,10 @@ typedef struct {
     int capacity;
 } ArrayList;
 
-int init(ArrayList *arr) { // receives pointer to the original struct being modified
-    // should not free this, as we need the memory
-    // and ptr itself will be destroyed after this function
+int init(ArrayList *arr) { 
+    /* receives pointer to the original struct being modified */
+    /* should not free this, as we need the memory */
+    /* and ptr itself will be destroyed after this function */
     int *ptr = malloc(MIN_CAPACITY * sizeof(int));
 
     if(ptr == NULL) {
@@ -35,7 +36,7 @@ void clear(ArrayList *arr) {
     arr->capacity = 0;
 }
 
-// const => the function will not modify the struct anyhow by this pointer arr, only access fields
+/* const => the function will not modify the struct anyhow by this pointer arr, only access fields */
 int getSize(const ArrayList *arr) {
     return arr->size;
 }
@@ -62,7 +63,7 @@ int isFull(const ArrayList *arr) {
     }
 }
 
-// answer will be returned in value, the function returns the success response
+/* answer will be returned in value, the function returns the success response */
 int getValueAtIndex(const ArrayList *arr, int index, int *value) {
     if(arr == NULL || value == NULL) {
         return 0;
@@ -135,7 +136,7 @@ int deleteAtIndex(ArrayList *arr, int index) {
     }
 
     int i;
-    for(int i = index; i < arr->size - 1; i++) {
+    for(i = index; i < arr->size - 1; i++) {
         arr->data[i] = arr->data[i + 1];
     }
 
@@ -223,18 +224,20 @@ void sout(const ArrayList *arr) {
 }
 
 int main(void) {
-    ArrayList arr; // variable
+    ArrayList arr; /* variable */ 
     
     if(init(&arr) == 0) {
         printf("ArrayList could not be initialized.");
         return 1;
     };
 
-    // int value;
-    // if(getValueAtIndex(&arr, 4, &value) == 1) {
-    //     printf("%d\n", value);
-    // }
-
+    /** 
+        int value;
+        if(getValueAtIndex(&arr, 4, &value) == 1) {
+            printf("%d\n", value);
+        }
+    */
+    
     insert(&arr, 3);
     insert(&arr, 2);
     insert(&arr, 4);

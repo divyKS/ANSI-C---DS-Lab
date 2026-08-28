@@ -38,7 +38,7 @@ int insertAtHead(DoublyLinkedList *list, int value) {
         return 0;
     }
 
-    if(list->head == NULL) { // then we are creating the very first node of DLL
+    if(list->head == NULL) { /* then we are creating the very first node of DLL */
         list->head = newNode;
         return 0;
     }
@@ -59,7 +59,7 @@ int insertAtEnd(DoublyLinkedList *list, int value) {
         return 0;
     }
 
-    if(list->head == NULL) { // then we are creating the very first node of DLL
+    if(list->head == NULL) { /* then we are creating the very first node of DLL */
         list->head = newNode;
         return 0;
     }

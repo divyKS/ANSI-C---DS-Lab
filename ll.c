@@ -3,13 +3,13 @@
 
 typedef struct Node{
     int data;
-    struct Node *next; // inside the definition, typedef is not available, also need to have the struct tag so that it can self reference
+    struct Node *next; /* inside the definition, typedef is not available, also need to have the struct tag so that it can self reference */
 } Node;
 
 typedef struct {
     Node *head;
     int size;
-} LinkedList; // although a single Node *head, will work perfectly fine, this maybe for augumentation later
+} LinkedList; /* although a single Node *head, will work perfectly fine, this maybe for augumentation later */
 
 void init(LinkedList *list) {
     list->head = NULL;
@@ -18,8 +18,8 @@ void init(LinkedList *list) {
 
 int insertNode(LinkedList *list, int value) {
     Node *newNode = malloc(sizeof(Node));
-    // typecasting to (Node *) before the malloc is not needed here, that is needed for C++
-    // can also do malloc(sizeof(*newNode)) so that if on the LHS the type of newNode is changed, it automatically gets adjusted instead of us doing that on the RHS too
+    /* typecasting to (Node *) before the malloc is not needed here, that is needed for C++ */
+    /* can also do malloc(sizeof(*newNode)) so that if on the LHS the type of newNode is changed, it automatically gets adjusted instead of us doing that on the RHS too */
     if(newNode == NULL) {
         return 0;
     }
@@ -82,7 +82,7 @@ int insertAtIndex(LinkedList *list, int index, int value) {
         temp = temp->next;
     }
 
-    // temp now points to the node after which this new node is to be inserted
+    /* temp now points to the node after which this new node is to be inserted */ 
     newNode->data = value;
     newNode->next = temp->next;
     temp->next = newNode;
@@ -181,7 +181,7 @@ int updateValueAtIndex(LinkedList *list, int index, int value) {
 
 void freeList(LinkedList *list) {
 
-    // free(all node pointers one by one)
+    /* free(all node pointers one by one) */
     Node *currNode = list->head;
     Node *nextNode;
 
@@ -217,13 +217,15 @@ int main(void) {
     insertNode(&list, 20);
     insertAtIndex(&list, 0, -10);
     insertAtIndex(&list, 3, 30);
-    // if(insertAtIndex(&list, 10, 100) == 0) {
-    //     printf("Could not insert at given position\n");
-    // }
+    /**
+        if(insertAtIndex(&list, 10, 100) == 0) {
+            printf("Could not insert at given position\n");
+        }
+    */
     int value;
     sout(&list);
-    // deleteNodeAtHead(&list, &value);
-    // deleteLast(&list, &value);
+    /* deleteNodeAtHead(&list, &value); */
+    /* deleteLast(&list, &value); */
     deleteNodeAtIndex(&list, 1, &value);
     
     sout(&list);
