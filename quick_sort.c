@@ -8,6 +8,8 @@ void quickSort(int arr[], int start, int end) {
     int i, j, temp;
     int pivot = arr[end];
 
+    /* int random_pivot_index = start + (rand() % (end - start + 1)); */ 
+
     i = start - 1;
     for(j = start; j < end; j++) {
         if(arr[j] <= pivot) {
