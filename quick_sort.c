@@ -1,38 +1,29 @@
 #include <stdio.h>
 
 void quickSort(int arr[], int start, int end) {
-    int i, j, temp;
-    int pivot = arr[end];
     if(start >= end) {
         return;
     }
+    
+    int i, j, temp;
+    int pivot = arr[end];
 
-    for(i = start; i < end; ) {
-        if(arr[i] >= pivot) { /* i is occurence of value greater than pivot */
-            j = i + 1; /* finding and pointing to the nearest value smaller than pivot for the given i */
-            while(j < end && arr[j] >= pivot) {
-                j++;
-            }
-            /* j would not be pointing to smaller value */
-            if(j == end) {
-                break;
-            }
+    i = start - 1;
+    for(j = start; j < end; j++) {
+        if(arr[j] <= pivot) {
+            i++;
             temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
-            i++;
-        }
-        else {
-            i++;
         }
     }
-    /* i points to a value bigger than pivot since we would have broken out of the if eventually */
-    temp = arr[i];
-    arr[i] = pivot;
+
+    temp = arr[i + 1];
+    arr[i + 1] = arr[end];
     arr[end] = temp;
-    /* i now points to pivot, and that is at its correct position */
-    quickSort(arr, start, i - 1);
-    quickSort(arr, i + 1, end);
+
+    quickSort(arr, start, (i + 1) - 1);
+    quickSort(arr, (i + 1) + 1, end);
 }
 
 int main(void) {
